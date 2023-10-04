@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat em Grupo</title>
+</head>
+<body>
+    <ul id="chat"></ul>
+    <input type="text" id="message" placeholder="Digite uma mensagem">
+    <button onclick="sendMessage()">Enviar</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('message', function(data) {
+            var chat = document.getElementById('chat');
+            chat.innerHTML += '<li>' + data + '</li>';
+        });
+
+        function sendMessage() {
+            var message = document.getElementById('message').value;
+            socket.emit('message', message);
+        }
+    </script>
+</body>
+</html>
